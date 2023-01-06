@@ -10,13 +10,19 @@ getforms.addEventListener('submit',(e)=>{
 function addnew(todos){
     var gettext = gettextbox.value;
 
+    //get the data from localstorge 
     if(todos){
         gettext = todos.text;
     }
 
+    // if the data had in gettext, create li
     if(gettext){
         var createli = document.createElement('li');
-        createli.classList.add('lis');
+    }
+
+    // if the the todos contains 'done', do this step (for complete)
+    if(todos && todos.done){
+        createli.classList.add('done');
     }
 
     createli.textContent = gettext;
@@ -33,6 +39,7 @@ function addnew(todos){
         e.preventDefault();
         updateLocalStorage();
     });
+
     updateLocalStorage();
 }
 
@@ -48,13 +55,14 @@ function updateLocalStorage(){
        localStorage.setItem('todos',JSON.stringify(todos))
     });
 
-    var gettodos = JSON.parse(localStorage.getItem('todos'));
+}
+
+var gettodos = JSON.parse(localStorage.getItem('todos'));
     // console.log(gettodos)
 
    if(gettodos){
     gettodos.forEach((gettodo)=>{
        console.log(gettodo.text)
-    // addnew(gettodo);
+    addnew(gettodo);
     });
-   }
 }
